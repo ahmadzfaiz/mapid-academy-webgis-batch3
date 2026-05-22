@@ -25,3 +25,10 @@ npm install maplibre-gl
 ```bash
 npm install bootstrap
 ```
+
+## Step 6 -  Create a new landing web page
+```bash
+touch index.html
+touch src/style.css
+touch src/main.js
+```
