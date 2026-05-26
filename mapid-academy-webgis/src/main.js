@@ -1,10 +1,3 @@
-// const mapidElement = document.createElement('div');
-
-// mapidElement.textContent = "Hello from MAPID Academy!";
-
-// document.body.appendChild(mapidElement);
-
-// MapLibre components
 import monasUrl from "./data/monas.geojson?url";
 import { createMonasMap } from "./maps/monasMap"
 import { addMonasLayer, addMonasImage } from "./layers/monasLayer"
