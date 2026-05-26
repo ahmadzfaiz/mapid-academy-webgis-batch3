@@ -52,4 +52,27 @@ map.on('load', () => {
         }
     });
 
+    // Add georeferenced image
+    map.addSource('spongebob-image-src', {
+        type: 'image',
+        url: 'https://static.wikia.nocookie.net/cartoons/images/e/ed/Profile_-_SpongeBob_SquarePants.png',
+        coordinates: [
+            [106.8245, -6.1725], // top-left
+            [106.8295, -6.1725], // top-right
+            [106.8295, -6.1775], // bottom-right
+            [106.8245, -6.1775]  // bottom-left
+        ]
+    });
+
+    // Add image layer visual
+    map.addLayer({
+        id: 'spongebob-image',
+        type: 'raster',
+        source: 'spongebob-image-src',
+        paint: {
+            'raster-opacity': 0.8
+        }
+    });
+
+
 });
