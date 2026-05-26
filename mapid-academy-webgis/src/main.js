@@ -6,6 +6,7 @@
 
 // MapLibre components
 import { Map } from 'maplibre-gl';
+import monasUrl from "./data/monas.geojson?url";
 
 const mapElement = document.createElement('div');
 mapElement.id = "map";
@@ -35,7 +36,7 @@ map.on('load', () => {
     // Add geojson source
     map.addSource("monas", {
         type: "geojson",
-        data: geojsonData
+        data: monasUrl
     });
 
     // Add layer visual

@@ -1,0 +1,57 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "nama": "Monas Utara"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    106.827183,
+                    -6.172739
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "nama": "Monas Selatan"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    106.827062,
+                    -6.178336
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "nama": "Monas Barat"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    106.824174,
+                    -6.175327
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "nama": "Monas Timur"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    106.829623,
+                    -6.175402
+                ]
+            }
+        }
+    ]
+}
