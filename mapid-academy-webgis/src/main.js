@@ -18,3 +18,37 @@ const map = new Map({
     center: [106.827, -6.175],
     zoom: 14
 });
+
+map.on('load', () => {
+    // Define geojson data
+    const geojsonData = {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [106.827, -6.175]
+        },
+        "properties": {
+            "name": "Taman Monumen Nasional"
+        }
+    };
+
+    // Add geojson source
+    map.addSource("monas", {
+        type: "geojson",
+        data: geojsonData
+    });
+
+    // Add layer visual
+    map.addLayer({
+        id: "monas-point",
+        type: "circle",
+        source: "monas",
+        paint: {
+            "circle-radius": 8,
+            "circle-color": "red",
+            "circle-stroke-width": 2,
+            "circle-stroke-color": "white"
+        }
+    });
+
+});
