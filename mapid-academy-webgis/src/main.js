@@ -1,20 +1,13 @@
-// const mapidElement = document.createElement('div');
+import monasUrl from "./data/monas.geojson?url";
+import { createMonasMap } from "./maps/monasMap"
+import { addMonasLayer, addMonasImage } from "./layers/monasLayer"
 
-// mapidElement.textContent = "Hello from MAPID Academy!";
+const map = createMonasMap();
 
-// document.body.appendChild(mapidElement);
+map.on('load', () => {
+    addMonasLayer("tugu", map);
+    addMonasLayer("kolam", map, monasUrl);
+    addMonasLayer("mancur", map, "https://geoserver.mapid.io/layers_new/get_layer?api_key=9498e99e38f84c558f72f75af447c63b&layer_id=6a15cc319eba37cd77a151ef&project_id=6a15cc13db752242b79ed6d7");
 
-// MapLibre components
-import { Map } from 'maplibre-gl';
-
-const mapElement = document.createElement('div');
-mapElement.id = "map";
-mapElement.style.height = "300px"
-document.body.appendChild(mapElement);
-
-const map = new Map({
-    container: 'map',
-    style: 'https://demotiles.maplibre.org/globe.json',
-    center: [0, 0],
-    zoom: 1
+    addMonasImage("spongebob", map);
 });
