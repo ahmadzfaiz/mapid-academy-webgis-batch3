@@ -10,11 +10,12 @@ const geojsonData = {
     }
 };
 
-export function addMonasLayer(id, map, data=geojsonData){
+export function addMonasLayer(id, map, attribution, data=geojsonData){
     // Add geojson source
     map.addSource(id, {
         type: "geojson",
-        data: data
+        data: data,
+        attribution: attribution
     });
 
     // Add layer visual
