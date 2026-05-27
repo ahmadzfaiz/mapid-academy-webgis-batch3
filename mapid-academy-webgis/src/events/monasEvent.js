@@ -1,6 +1,6 @@
-import { Popup } from "maplibre-gl";
 import monasUrl from "../data/monas.geojson?url";
 import { addMonasLayer, addMonasImage } from "../layers/monasLayer";
+import { addMonasPopup } from "../popups/monasPopup";
 
 export function addMonasEvents(map){
     map.on('load', () => {
@@ -12,9 +12,6 @@ export function addMonasEvents(map){
     });
 
     map.on("click", "mancur-point", function(event){
-        new Popup()
-            .setLngLat(event.lngLat)
-            .setHTML("<div>Hello World!</div>")
-            .addTo(map)
+        addMonasPopup(map, event)
     })
 };
