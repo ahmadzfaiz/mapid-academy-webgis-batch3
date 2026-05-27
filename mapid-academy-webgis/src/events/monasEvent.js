@@ -1,6 +1,6 @@
 import monasUrl from "../data/monas.geojson?url";
 import { addMonasLayer, addMonasImage } from "../layers/monasLayer";
-import { addMonasPopup } from "../popups/monasPopup";
+import { addMonasPopup, showMonasPopup, hideMonasPopup } from "../popups/monasPopup";
 
 export function addMonasEvents(map){
     map.on('load', () => {
@@ -11,7 +11,19 @@ export function addMonasEvents(map){
         addMonasImage("spongebob", map);
     });
 
-    map.on("click", "mancur-point", function(event){
-        addMonasPopup(map, event)
-    })
+    map.on("mousemove", "mancur-point", function(event){
+        showMonasPopup(map, event);
+    });
+    
+    map.on("mouseleave", "mancur-point", function(event){
+        hideMonasPopup(map);
+    });
+
+    map.on("click", "kolam-point", function(event){
+        addMonasPopup(map, event);
+    });
+
+    map.on("click", "tugu-point", function(event){
+        addMonasPopup(map, event);
+    });
 };
