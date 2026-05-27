@@ -4,6 +4,7 @@ import {
     AttributionControl,
     FullscreenControl 
 } from "maplibre-gl"
+import { JakartaLogoControl } from "./customLogoControl";
 
 export function addMonasControl(map){
     map.addControl(new NavigationControl());
@@ -16,4 +17,5 @@ export function addMonasControl(map){
         customAttribution: "MAPID Academy"
     }));
     map.addControl(new FullscreenControl());
+    map.addControl(new JakartaLogoControl(), "top-left");
 };
