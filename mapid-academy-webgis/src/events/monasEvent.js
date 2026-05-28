@@ -4,6 +4,7 @@ import { addMonasPopup, showMonasPopup, hideMonasPopup } from "../popups/monasPo
 import { storeAreaGeometry } from "../engine/areaTool";
 import { storeLengthGeometry } from "../engine/lengthTool";
 import { storeCentroidGeometry } from "../engine/centroidTool";
+import { storeBufferGeometry } from "../engine/bufferTool";
 
 export function addMonasEvents(map){
     map.on('load', () => {
@@ -35,5 +36,6 @@ export function addMonasEvents(map){
         storeAreaGeometry(event);
         storeLengthGeometry(event);
         storeCentroidGeometry(event);
+        storeBufferGeometry(event);
     });
 };

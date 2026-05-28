@@ -8,6 +8,7 @@ import { addMonasHandler } from "./handlers/monasHandler";
 import { createAreaTool } from "./engine/areaTool";
 import { createLengthTool } from "./engine/lengthTool";
 import { createCentroidTool } from "./engine/centroidTool";
+import { createBufferTool } from "./engine/bufferTool";
 
 const map = createMonasMap();
 
@@ -22,3 +23,4 @@ document.body.appendChild(cardContainer);
 cardContainer.appendChild(createAreaTool());
 cardContainer.appendChild(createLengthTool());
 cardContainer.appendChild(createCentroidTool(map));
+cardContainer.appendChild(createBufferTool(map));
