@@ -6,6 +6,7 @@ import { addMonasEvents } from "./events/monasEvent";
 import { addMonasControl } from "./controls/monasControl";
 import { addMonasHandler } from "./handlers/monasHandler";
 import { createAreaTool } from "./engine/areaTool";
+import { createLengthTool } from "./engine/lengthTool";
 
 const map = createMonasMap();
 
@@ -13,4 +14,9 @@ addMonasEvents(map);
 addMonasControl(map);
 addMonasHandler(map);
 
-document.body.appendChild(createAreaTool());
+const cardContainer = document.createElement("div");
+cardContainer.className = "d-flex flex-wrap";
+document.body.appendChild(cardContainer);
+
+cardContainer.appendChild(createAreaTool());
+cardContainer.appendChild(createLengthTool());
