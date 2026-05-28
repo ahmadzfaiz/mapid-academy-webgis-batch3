@@ -7,8 +7,10 @@ from toolbox.network_analysis.dijkstra import shortest_path
 from toolbox.spatial_computation.area import calculate_area
 from toolbox.spatial_computation.distance import calculate_distance
 from toolbox.spatial_computation.length import calculate_length
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/spatial_computation/area", methods=['POST'])
 def area():
