@@ -3,6 +3,7 @@ import { addMonasLayer, addMonasLayerPolygon, addMonasImage } from "../layers/mo
 import { addMonasPopup, showMonasPopup, hideMonasPopup } from "../popups/monasPopup";
 import { storeAreaGeometry } from "../engine/areaTool";
 import { storeLengthGeometry } from "../engine/lengthTool";
+import { storeCentroidGeometry } from "../engine/centroidTool";
 
 export function addMonasEvents(map){
     map.on('load', () => {
@@ -32,9 +33,7 @@ export function addMonasEvents(map){
 
     map.on("click", "area-polygon", function(event) {
         storeAreaGeometry(event);
-    });
-
-    map.on("click", "area-polygon", function(event) {
         storeLengthGeometry(event);
+        storeCentroidGeometry(event);
     });
 };
