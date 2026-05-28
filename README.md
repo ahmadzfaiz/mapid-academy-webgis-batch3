@@ -56,3 +56,12 @@ python -m toolbox.geometry_manipulation.intersections \
   "POLYGON((110 -7, 111 -7, 111 -8, 110 -8, 110 -7))" \
   "POLYGON((110.5 -7.5, 112 -7.5, 112 -9, 110.5 -9, 110.5 -7.5))"
 ```
+
+## 3. Network Analysis
+
+### 3.1. Dijkstra
+Mengukur jarak tempuh tercepat dari titik awal menuju titik akhir menggunakan jaringan garis. Input titik awal dan akhir harus dalam bentuk WKT point dan jaringan garis dapat berupa linestring maupun multilinestring.
+```bash
+python -m toolbox.network_analysis.dijkstra \
+  "POINT(110 -7)" "POINT(111 -8)" "LINESTRING(110 -7, 111 -7, 111 -8)"
+```

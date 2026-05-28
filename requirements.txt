@@ -1,2 +1,2 @@
-geopandas
-pyproj
+pyproj>=3.0
+shapely>=2.0
