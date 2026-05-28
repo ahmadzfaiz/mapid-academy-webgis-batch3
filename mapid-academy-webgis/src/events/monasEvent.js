@@ -1,12 +1,14 @@
 import monasUrl from "../data/monas.geojson?url";
-import { addMonasLayer, addMonasImage } from "../layers/monasLayer";
+import { addMonasLayer, addMonasLayerPolygon, addMonasImage } from "../layers/monasLayer";
 import { addMonasPopup, showMonasPopup, hideMonasPopup } from "../popups/monasPopup";
+import { storeAreaGeometry } from "../engine/areaTool";
 
 export function addMonasEvents(map){
     map.on('load', () => {
         addMonasLayer("tugu", map);
         addMonasLayer("kolam", map, "Data A", monasUrl);
         addMonasLayer("mancur", map, "Data B", "https://geoserver.mapid.io/layers_new/get_layer?api_key=9498e99e38f84c558f72f75af447c63b&layer_id=6a15cc319eba37cd77a151ef&project_id=6a15cc13db752242b79ed6d7");
+        addMonasLayerPolygon("area", map, "", "https://geoserver.mapid.io/layers_new/get_layer?api_key=9498e99e38f84c558f72f75af447c63b&layer_id=6a17b7fe9eba37cd77f4f6f2&project_id=6a15cc13db752242b79ed6d7")
     
         addMonasImage("spongebob", map);
     });
@@ -26,4 +28,8 @@ export function addMonasEvents(map){
     map.on("click", "tugu-point", function(event){
         addMonasPopup(map, event);
     });
+
+    map.on("click", "area-polygon", function(event) {
+        storeAreaGeometry(event);
+    })
 };
