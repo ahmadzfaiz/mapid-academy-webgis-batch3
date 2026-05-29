@@ -1,4 +1,4 @@
-import { geojsonToWKT } from "@terraformer/wkt"
+import { geojsonToWKT } from "@terraformer/wkt";
 
 export function createLengthTool() {
     const container = document.createElement("div");
@@ -27,31 +27,24 @@ export function storeLengthGeometry(event) {
     const wkt = geojsonToWKT(geometry);
 
     const input = document.getElementById("polygon2");
-    if (input) {
-        input.value = wkt;
-    }
+    input.value = wkt;
 }
 
 export async function computeLengthTool() {
     const input = document.getElementById("polygon2");
-    const wkt = input?.value;
+    const wkt = input.value;
     if (!wkt) return;
 
     const response = await fetch("http://127.0.0.1:5000/spatial_computation/length", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ geometry: wkt }),
     });
 
     const result = await response.json();
 
     const output = document.getElementById("hasil-panjang");
-    if (output) {
-        output.textContent = `
-            Panjang: ${result.length_m.toFixed(2)} ${result.unit}
-        `;
-    }
+    output.textContent = `Panjang: ${result.length_m.toFixed(2)} ${result.unit}`;
+
     return result;
 }

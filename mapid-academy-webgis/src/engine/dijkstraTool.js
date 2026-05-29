@@ -31,8 +31,10 @@ export function createDijkstraTool(map) {
 }
 
 export async function computeDijkstraTool(map) {
-    const startWKT = document.getElementById("point1").value;
-    const endWKT = document.getElementById("point2").value;
+    const input1 = document.getElementById("point1");
+    const input2 = document.getElementById("point2");
+    const startWKT = input1.value;
+    const endWKT = input2.value;
 
     if (!startWKT || !endWKT) {
         setStatus("Pilih dua titik dahulu");

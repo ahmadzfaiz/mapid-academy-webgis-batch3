@@ -1,4 +1,4 @@
-import { geojsonToWKT, wktToGeoJSON } from "@terraformer/wkt"
+import { geojsonToWKT, wktToGeoJSON } from "@terraformer/wkt";
 
 export function createBufferTool(map) {
     const container = document.createElement("div");
@@ -19,7 +19,9 @@ export function createBufferTool(map) {
     `;
 
     const button = container.querySelector("#hitung-buffer");
-    button.addEventListener("click", () => computeBufferTool(map));
+    button.addEventListener("click", function () {
+        computeBufferTool(map);
+    });
 
     return container;
 }
@@ -29,22 +31,20 @@ export function storeBufferGeometry(event) {
     const wkt = geojsonToWKT(geometry);
 
     const input = document.getElementById("polygon4");
-    if (input) {
-        input.value = wkt;
-    }
+    input.value = wkt;
 }
 
 export async function computeBufferTool(map) {
     const input = document.getElementById("polygon4");
     const distanceInput = document.getElementById("buffer-distance");
-    const wkt = input?.value;
-    const distance_m = Number(distanceInput?.value);
+    const wkt = input.value;
+    const distance_m = Number(distanceInput.value);
     if (!wkt || !distance_m) return;
 
     const response = await fetch("http://127.0.0.1:5000/geometry_manipulation/buffer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ geometry: wkt, distance_m }),
+        body: JSON.stringify({ geometry: wkt, distance_m: distance_m }),
     });
 
     const result = await response.json();
@@ -53,24 +53,27 @@ export async function computeBufferTool(map) {
     addBufferToMap(map, bufferGeoJSON);
 
     const output = document.getElementById("hasil-buffer");
-    if (output) {
-        output.textContent = `Buffer ${result.distance_m} m ditambahkan ke peta`;
-    }
+    output.textContent = `Buffer ${result.distance_m} m ditambahkan ke peta`;
+
     return result;
 }
 
 function addBufferToMap(map, geometry) {
     const sourceId = "buffer-result";
-    const data = { type: "Feature", geometry, properties: {} };
+    const data = {
+        type: "Feature",
+        geometry: geometry,
+        properties: {},
+    };
 
     if (map.getSource(sourceId)) {
         map.getSource(sourceId).setData(data);
         return;
     }
 
-    map.addSource(sourceId, { type: "geojson", data });
+    map.addSource(sourceId, { type: "geojson", data: data });
     map.addLayer({
-        id: `${sourceId}-fill`,
+        id: "buffer-result-fill",
         type: "fill",
         source: sourceId,
         paint: {

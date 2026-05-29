@@ -26,23 +26,25 @@ export function createDistanceTool(map) {
 }
 
 export function setupLocationPickers(map) {
-    document.body.addEventListener("click", (e) => {
-        if (e.target.id === "first-location") {
+    document.body.addEventListener("click", function (event) {
+        if (event.target.id === "first-location") {
             pickMode = "point1";
             setStatus("Klik peta untuk titik 1");
-        } else if (e.target.id === "second-location") {
+        } else if (event.target.id === "second-location") {
             pickMode = "point2";
             setStatus("Klik peta untuk titik 2");
         }
     });
 
-    map.on("click", (event) => {
+    map.on("click", function (event) {
         if (!pickMode) return;
-        const { lng, lat } = event.lngLat;
+
+        const lng = event.lngLat.lng;
+        const lat = event.lngLat.lat;
         const wkt = `POINT(${lng} ${lat})`;
 
         const input = document.getElementById(pickMode);
-        if (input) input.value = wkt;
+        input.value = wkt;
 
         pickedCoords[pickMode] = [lng, lat];
         addPointToMap(map, pickMode, [lng, lat]);
@@ -53,8 +55,10 @@ export function setupLocationPickers(map) {
 }
 
 export async function computeDistanceTool() {
-    const wkt1 = document.getElementById("point1")?.value;
-    const wkt2 = document.getElementById("point2")?.value;
+    const input1 = document.getElementById("point1");
+    const input2 = document.getElementById("point2");
+    const wkt1 = input1.value;
+    const wkt2 = input2.value;
     if (!wkt1 || !wkt2) return;
 
     const response = await fetch("http://127.0.0.1:5000/spatial_computation/distance", {
@@ -66,15 +70,16 @@ export async function computeDistanceTool() {
     const result = await response.json();
 
     const output = document.getElementById("hasil-jarak");
-    if (output) {
-        output.textContent = `Jarak: ${result.distance_m.toFixed(2)} ${result.unit}`;
-    }
+    output.textContent = `Jarak: ${result.distance_m.toFixed(2)} ${result.unit}`;
+
     return result;
 }
 
 function addPointToMap(map, slot, coords) {
     const sourceId = `distance-${slot}`;
-    const color = slot === "point1" ? "green" : "orange";
+    let color = "orange";
+    if (slot === "point1") color = "green";
+
     const data = {
         type: "Feature",
         geometry: { type: "Point", coordinates: coords },
@@ -86,7 +91,7 @@ function addPointToMap(map, slot, coords) {
         return;
     }
 
-    map.addSource(sourceId, { type: "geojson", data });
+    map.addSource(sourceId, { type: "geojson", data: data });
     map.addLayer({
         id: `${sourceId}-point`,
         type: "circle",
@@ -118,9 +123,9 @@ function updateLineLayer(map) {
         return;
     }
 
-    map.addSource(sourceId, { type: "geojson", data });
+    map.addSource(sourceId, { type: "geojson", data: data });
     map.addLayer({
-        id: `${sourceId}-line`,
+        id: "distance-line-line",
         type: "line",
         source: sourceId,
         paint: {
@@ -133,5 +138,5 @@ function updateLineLayer(map) {
 
 function setStatus(text) {
     const output = document.getElementById("hasil-jarak");
-    if (output) output.textContent = text;
+    output.textContent = text;
 }
