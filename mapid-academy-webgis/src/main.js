@@ -9,7 +9,7 @@ import { createAreaTool } from "./engine/areaTool";
 import { createLengthTool } from "./engine/lengthTool";
 import { createCentroidTool } from "./engine/centroidTool";
 import { createBufferTool } from "./engine/bufferTool";
-import { createDistanceTool, setupLocationPickers } from "./engine/distance";
+import { createDistanceTool, setupLocationPickers } from "./engine/distanceTool";
 
 const map = createMonasMap();
 
