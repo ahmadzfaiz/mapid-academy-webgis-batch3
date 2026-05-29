@@ -32,6 +32,27 @@ export function addMonasLayer(id, map, attribution, data=geojsonData){
     });
 };
 
+export function addMonasLayerPolygon(id, map, attribution, data=geojsonData){
+    // Add geojson source
+    map.addSource(id, {
+        type: "geojson",
+        data: data,
+        attribution: attribution
+    });
+
+    // Add layer visual
+    map.addLayer({
+        id: `${id}-polygon`,
+        type: "fill",
+        source: id,
+        paint: {
+            'fill-color': 'orange',
+            'fill-opacity': 0.6,
+            'fill-outline-color': 'black'
+        }
+    });
+};
+
 const spongebobImage = 'https://static.wikia.nocookie.net/cartoons/images/e/ed/Profile_-_SpongeBob_SquarePants.png'
 
 export function addMonasImage(id, map, data=spongebobImage){
