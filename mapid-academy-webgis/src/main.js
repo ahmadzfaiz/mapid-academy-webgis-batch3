@@ -10,6 +10,7 @@ import { createLengthTool } from "./engine/lengthTool";
 import { createCentroidTool } from "./engine/centroidTool";
 import { createBufferTool } from "./engine/bufferTool";
 import { createDistanceTool, setupLocationPickers } from "./engine/distanceTool";
+import { createDijkstraTool } from "./engine/dijkstraTool";
 
 const map = createMonasMap();
 
@@ -26,5 +27,6 @@ cardContainer.appendChild(createLengthTool());
 cardContainer.appendChild(createCentroidTool(map));
 cardContainer.appendChild(createBufferTool(map));
 cardContainer.appendChild(createDistanceTool(map));
+cardContainer.appendChild(createDijkstraTool(map));
 
 setupLocationPickers(map);
