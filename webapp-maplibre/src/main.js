@@ -21,7 +21,8 @@ const map = new Map({
   style: 'https://demotiles.maplibre.org/globe.json',
   center: [106.83, -6.19],
   zoom: 1,
-  attributionControl: false
+  attributionControl: false,
+  cooperativeGestures: true
 });
 
 map.on("load", () => {
@@ -34,6 +35,8 @@ map.on("load", () => {
 map.on("click", "titik-kota", function(event){
   addKotaPopup(map, event);
 })
+
+map.doubleClickZoom.disable();
 
 
 // Controls setting
