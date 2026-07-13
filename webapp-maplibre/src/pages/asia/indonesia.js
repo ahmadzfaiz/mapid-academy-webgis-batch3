@@ -11,9 +11,9 @@ document.body.appendChild(mapElement);
 
 const map = new Map({
   container: 'map',
-  style: 'https://demotiles.maplibre.org/globe.json',
-  center: [0, 0],
-  zoom: 1,
+  style: 'https://basemap.mapid.io/styles/dark/style.json?key=6a15c3949b6fba880a625159',
+  center: [106.83, -6.19],
+  zoom: 13,
   attributionControl: false
 });
 
