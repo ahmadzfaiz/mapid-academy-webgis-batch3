@@ -11,7 +11,7 @@ import { addAttribution } from './controls/basicControls';
 import { LogoHondaControl } from './controls/customLogoControls'
 import { addKotaPopup, addPulauPopup } from './popups/layerPopups';
 import { storeAreaGeometry } from './engine/areaTool';
-import { computeArea } from './engine/areaTool';
+import { storeBufferGeometry } from './engine/bufferTool';
 
 const mapElement = document.createElement('div');
 mapElement.id = 'map';
@@ -35,7 +35,8 @@ map.on("load", () => {
 });
 
 map.on("click", "titik-kota", function(event){
-  addKotaPopup(map, event);
+  // addKotaPopup(map, event);
+  storeBufferGeometry(map, event)
 })
 
 map.doubleClickZoom.disable();

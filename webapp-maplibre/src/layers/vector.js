@@ -38,3 +38,27 @@ export function addPulauLayer(map){
         }
     })
 }
+
+
+export function addBufferLayer(map, data){
+    const fid = getRandomInt(1, 1000)
+    // Layer Vektor - Poligon
+    map.addSource(String(fid), {
+        type: "geojson",
+        data: data
+    })
+
+    map.addLayer({
+        id: `area-${fid}`,
+        type: "fill",
+        source: String(fid),
+        paint: {
+        "fill-color": "red",
+        "fill-outline-color": "black"
+        }
+    })
+}
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
