@@ -9,8 +9,9 @@ import { addKotaLayer, addPulauLayer } from './layers/vector';
 import { addSpongebobImage } from './layers/raster';
 import { addAttribution } from './controls/basicControls';
 import { LogoHondaControl } from './controls/customLogoControls'
-import { addKotaPopup } from './popups/layerPopups';
+import { addKotaPopup, addPulauPopup } from './popups/layerPopups';
 import { storeAreaGeometry } from './engine/areaTool';
+import { computeArea } from './engine/areaTool';
 
 const mapElement = document.createElement('div');
 mapElement.id = 'map';

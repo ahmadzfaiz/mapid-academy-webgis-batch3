@@ -1,4 +1,5 @@
 import { Popup } from "maplibre-gl";
+import { storeAreaGeometry } from "../engine/areaTool";
 
 const popup = new Popup();
 
@@ -19,6 +20,19 @@ export function addKotaPopup(map, event){
                 <h3>${cityName}</h3>
                 <div>Bujur: ${longitude}</div>
                 <div>Lintang: ${latitude}</div>
+            </div>    
+        `)
+        .addTo(map)
+}
+
+export function addPulauPopup(map, event){
+    const result = storeAreaGeometry(event)
+    
+    return popup
+        .setLngLat(event.lngLat)
+        .setHTML(`
+            <div>
+                <div id="luas"></div>
             </div>    
         `)
         .addTo(map)
