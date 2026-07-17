@@ -10,6 +10,7 @@ import { addSpongebobImage } from './layers/raster';
 import { addAttribution } from './controls/basicControls';
 import { LogoHondaControl } from './controls/customLogoControls'
 import { addKotaPopup } from './popups/layerPopups';
+import { storeAreaGeometry } from './engine/areaTool';
 
 const mapElement = document.createElement('div');
 mapElement.id = 'map';
@@ -37,6 +38,10 @@ map.on("click", "titik-kota", function(event){
 })
 
 map.doubleClickZoom.disable();
+
+map.on("click", "area-pulau", function(event){
+  storeAreaGeometry(event)
+})
 
 
 // Controls setting
