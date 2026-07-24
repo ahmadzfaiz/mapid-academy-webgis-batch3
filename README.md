@@ -5,7 +5,7 @@ Repositori ini terdiri dari dua bagian:
 | Folder | Isi | Target deployment |
 | --- | --- | --- |
 | [`spatial-engine/`](spatial-engine/) | REST API Flask untuk komputasi spasial (shapely + pyproj) | PythonAnywhere |
-| [`webapp-maplibre/`](webapp-maplibre/) | Peta web statis (Vite + MapLibre GL) | Render |
+| [`webapp-maplibre/`](webapp-maplibre/) | Peta web statis (Vite + MapLibre GL) | Netlify |
 
 Dokumen ini adalah panduan *deployment*. Untuk dokumentasi masing-masing *toolbox* dan
 *endpoint*-nya, lihat [`spatial-engine/README.md`](spatial-engine/README.md).
@@ -17,7 +17,8 @@ Dokumen ini adalah panduan *deployment*. Untuk dokumentasi masing-masing *toolbo
 1. Repositori sudah ter-*push* ke GitHub.
 2. Akun [PythonAnywhere](https://www.pythonanywhere.com) — *free tier* sudah cukup. Batasan
    *outbound* (proxy *whitelist*) tidak berpengaruh karena API ini tidak memanggil layanan luar.
-3. Akun [Render](https://render.com) — *free static site* sudah cukup.
+3. Akun [Netlify](https://netlify.com) — *free tier* sudah cukup dan **tidak meminta kartu kredit**
+   untuk *static site*.
 
 ---
 
@@ -38,7 +39,7 @@ const response = await fetch("http://127.0.0.1:5000/spatial_computation/area", {
 ```
 
 Setelah *deploy*, `127.0.0.1` menunjuk ke komputer pengunjung — bukan ke server. Selain itu,
-halaman Render disajikan lewat HTTPS, sehingga *browser* akan **memblokir** panggilan ke alamat
+halaman Netlify disajikan lewat HTTPS, sehingga *browser* akan **memblokir** panggilan ke alamat
 `http://` biasa (*mixed content*).
 
 Solusi yang disarankan: buat `webapp-maplibre/src/config.js`
@@ -56,7 +57,7 @@ import { API_BASE_URL } from "../config";
 const response = await fetch(`${API_BASE_URL}/spatial_computation/area`, { ... })
 ```
 
-Dengan pola ini, `npm run dev` tetap jalan ke Flask lokal tanpa berkas `.env`, sedangkan Render
+Dengan pola ini, `npm run dev` tetap jalan ke Flask lokal tanpa berkas `.env`, sedangkan Netlify
 memakai nilai dari *environment variable* (lihat Bagian C).
 
 ### A.2. Halaman kedua tidak ikut ter-*build*
@@ -165,28 +166,38 @@ Respons yang diharapkan berupa JSON berisi `area_ha` dan `unit`. Jika muncul err
 
 ---
 
-## Bagian C — Deploy `webapp-maplibre` ke Render
+## Bagian C — Deploy `webapp-maplibre` ke Netlify
+
+> Netlify dipilih karena *free tier*-nya tidak meminta kartu kredit untuk *static site*
+> (berbeda dengan Render yang kini mewajibkan kartu, dan kartu terbitan Indonesia sering ditolak).
 
 1. *Push* perubahan dari Bagian A ke GitHub.
-2. Di dasbor Render: **New → Static Site**, hubungkan ke repositori ini.
-3. Isi pengaturan:
+2. Login ke [app.netlify.com](https://app.netlify.com) (cukup dengan akun GitHub, tanpa kartu),
+   lalu **Add new site → Import an existing project → Deploy with GitHub**, dan pilih repositori ini.
+3. Isi pengaturan *build* (repo ini *monorepo*, jadi **Base directory** wajib diisi):
 
    | Kolom | Nilai |
    | --- | --- |
-   | Root Directory | `webapp-maplibre` |
-   | Build Command | `npm ci && npm run build` |
-   | Publish Directory | `dist` |
+   | Base directory | `webapp-maplibre` |
+   | Build command | `npm ci && npm run build` |
+   | Publish directory | `webapp-maplibre/dist` |
 
-4. Buka **Environment → Add Environment Variable**:
+   > Catatan: `Publish directory` ditulis relatif terhadap akar repo, jadi tetap diawali
+   > `webapp-maplibre/` walau `Base directory` sudah disetel.
+
+4. Klik **Add environment variables** (atau setelah situs dibuat: **Site configuration →
+   Environment variables → Add a variable**):
 
    ```
    VITE_API_BASE_URL = https://<user>.pythonanywhere.com
    ```
 
    Tanpa garis miring di akhir. Vite menanam nilai ini saat **build**, bukan saat *runtime* —
-   jadi setiap kali nilainya diubah, situs harus di-*deploy* ulang, bukan sekadar di-*restart*.
+   jadi setiap kali nilainya diubah, situs harus di-*deploy* ulang (**Trigger deploy → Deploy site**),
+   bukan sekadar di-*restart*.
 
-5. Klik **Create Static Site** dan tunggu *build* selesai.
+5. Klik **Deploy** dan tunggu *build* selesai. URL bawaannya berbentuk
+   `https://<nama-acak>.netlify.app` — bisa diganti di **Site configuration → Change site name**.
 
 ---
 
@@ -197,10 +208,10 @@ Respons yang diharapkan berupa JSON berisi `area_ha` dan `unit`. Jika muncul err
    berubah; klik titik di layer `titik-kota` → poligon *buffer* 1000 km muncul. Ini membuktikan
    *fallback* di `config.js` masih berfungsi.
 2. **API produksi.** Perintah `curl` pada Bagian B.5 membalas 200 beserta JSON.
-3. **End-to-end.** Buka URL Render, ulangi kedua klik di atas, lalu periksa DevTools:
+3. **End-to-end.** Buka URL Netlify, ulangi kedua klik di atas, lalu periksa DevTools:
    - Tab **Network**: permintaan menuju `https://<user>.pythonanywhere.com/...` dan berstatus 200.
    - Tab **Console**: tidak ada error *mixed content* maupun CORS.
-4. **Halaman kedua.** `https://<nama>.onrender.com/asia/indonesia.html` terbuka tanpa 404 —
+4. **Halaman kedua.** `https://<nama>.netlify.app/asia/indonesia.html` terbuka tanpa 404 —
    menandakan konfigurasi Vite di Bagian A.2 sudah benar.
 
 ---
@@ -209,10 +220,10 @@ Respons yang diharapkan berupa JSON berisi `area_ha` dan `unit`. Jika muncul err
 
 - **CORS.** [`engine.py`](spatial-engine/engine.py) memakai `CORS(app)` (terbuka untuk semua asal).
   Ini disengaja karena API bersifat demo publik. Untuk membatasinya, ganti menjadi
-  `CORS(app, origins=["https://<nama>.onrender.com"])`.
+  `CORS(app, origins=["https://<nama>.netlify.app"])`.
 - **Error 500 di PythonAnywhere** hampir selalu berarti `sys.path` belum disetel (Bagian B.4) atau
   virtualenv belum dipilih (Bagian B.3). Cek *error log* di tab Web.
-- **`dist/` masuk `.gitignore`** — memang seharusnya begitu; Render membangunnya sendiri.
+- **`dist/` masuk `.gitignore`** — memang seharusnya begitu; Netlify membangunnya sendiri.
 - **Kuota CPU** akun gratis PythonAnywhere terbatas per hari. Endpoint `dijkstra` pada jaringan
   besar bisa menghabiskannya; untuk data seukuran demo ini aman.
 - **Ukuran data.** [`webapp-maplibre/src/data/ne.geojson`](webapp-maplibre/src/data/ne.geojson)
