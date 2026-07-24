@@ -109,7 +109,7 @@ Buka **Consoles → Bash**, lalu:
 
 ```bash
 git clone https://github.com/<username-github>/mapid-academy-webgis-batch3.git
-mkvirtualenv webgis --python=/usr/bin/python3.11
+mkvirtualenv webgis --python=$(which python3.11)
 pip install -r ~/mapid-academy-webgis-batch3/spatial-engine/requirements.txt
 ```
 
